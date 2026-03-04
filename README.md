@@ -29,6 +29,7 @@ push na branch test
         ├──► AWS job      → validate → plan → apply
         ├──► Azure job    → validate → plan → apply
         └──► Security job → trivy + checkov
+<<<<<<< HEAD
 ```
 
 **AWS** — Alta disponibilidade com ALB + Auto Scaling Group em 2 Availability Zones
@@ -41,6 +42,8 @@ internet → ALB → EC2 (us-east-1a)
 ```
 internet → Load Balancer → VM (zone 1)
                          → VM (zone 2)
+=======
+>>>>>>> 1b91d3058667a9a9bd7dc89c6950801ed1c938c4
 ```
 
 ---
@@ -160,6 +163,7 @@ terraform apply -var="ssh_public_key=$(cat ~/.ssh/id_rsa.pub)"
 
 ## ✅ Best Practices
 
+<<<<<<< HEAD
 - **Arquitetura modular** — rede e compute separados, reutilizáveis
 - **Alta disponibilidade** — Multi-AZ na AWS, Zones na Azure
 - **Remote state** — S3 (AWS) e Azure Storage com locking
@@ -167,3 +171,10 @@ terraform apply -var="ssh_public_key=$(cat ~/.ssh/id_rsa.pub)"
 - **Apply protegido** — só na branch `test`, nunca direto na `main`
 - **GitOps** — nenhuma mudança manual no console, tudo via código
 - **Secrets no CI** — nenhuma credencial no código
+=======
+- Arquitetura modular — rede e compute separados
+- Remote state — S3 e Azure Storage
+- Security scanning — Trivy + Checkov
+- Apply protegido — só na branch `test`
+- Secrets no CI — nenhuma credencial no código
+>>>>>>> 1b91d3058667a9a9bd7dc89c6950801ed1c938c4
