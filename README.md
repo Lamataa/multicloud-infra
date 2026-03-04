@@ -41,7 +41,6 @@ internet → ALB → EC2 (us-east-1a)
 ```
 internet → Load Balancer → VM (zone 1)
                          → VM (zone 2)
-=======
 ```
 
 ---
@@ -168,7 +167,6 @@ terraform apply -var="ssh_public_key=$(cat ~/.ssh/id_rsa.pub)"
 - **Apply protegido** — só na branch `test`, nunca direto na `main`
 - **GitOps** — nenhuma mudança manual no console, tudo via código
 - **Secrets no CI** — nenhuma credencial no código
-=======
 - Arquitetura modular — rede e compute separados
 - Remote state — S3 e Azure Storage
 - Security scanning — Trivy + Checkov
