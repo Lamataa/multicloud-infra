@@ -151,7 +151,7 @@ terraform apply -var="ssh_public_key=$(cat ~/.ssh/id_rsa.pub)"
 | VMSS x2 (Azure) | Standard_B2s | ~$30 |
 | **Total** | | **~$80/mês** |
 
-> 💡 O projeto foi feito para rodar pontualmente — sobe, tira os prints e destrói.
+> 💡 O projeto foi feito para rodar pontualmente — sobe e destrói.
 > ```bash
 > terraform destroy
 > ```
