@@ -19,20 +19,11 @@ usando Terraform e GitHub Actions.
 
 ## 🏗️ Arquitetura
 ```
-GitHub Actions
-       │
-       ├── aws job ──────────────────────────────────────────────┐
-       │     validate → plan → apply (só branch test)            │
-       │                                                          │
-       ├── azure job ───────────────────────────────────────────┐ │
-       │     validate → plan → apply (só branch test)           │ │
-       │                                                         │ │
-       └── security job (paralelo)                              │ │
-             trivy + checkov                                     │ │
-                                                                 ▼ ▼
-                                                          AWS        Azure
-                                                          VPC        VNet
-                                                          EC2        VM
+push na branch test
+        │
+        ├──► AWS job      → validate → plan → apply
+        ├──► Azure job    → validate → plan → apply
+        └──► Security job → trivy + checkov
 ```
 
 ---
