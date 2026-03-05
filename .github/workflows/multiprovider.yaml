@@ -1,7 +1,8 @@
 name: Destroy AWS
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [test]
 
 jobs:
   destroy-aws:
