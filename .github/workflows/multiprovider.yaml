@@ -2,7 +2,7 @@ name: Destroy AWS
 
 on:
   push:
-    branches: [destroy-aws]
+    branches: [test]
 
 jobs:
   destroy-aws:
