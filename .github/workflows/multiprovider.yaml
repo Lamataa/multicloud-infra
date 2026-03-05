@@ -5,6 +5,16 @@ on:
     branches: [test]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "deploy ou destroy"
+        required: true
+        default: "deploy"
+        type: choice
+        options:
+          - deploy
+          - destroy
 
 jobs:
   # ═══════════════════════════════════════════════════════════
@@ -13,6 +23,7 @@ jobs:
   aws:
     name: "AWS"
     runs-on: ubuntu-latest
+    if: github.event.inputs.action != 'destroy'
     defaults:
       run:
         working-directory: terraform/aws
@@ -59,6 +70,7 @@ jobs:
   security:
     name: "Security Scan"
     runs-on: ubuntu-latest
+    if: github.event.inputs.action != 'destroy'
     continue-on-error: true
 
     steps:
@@ -87,6 +99,7 @@ jobs:
   azure:
     name: "Azure"
     runs-on: ubuntu-latest
+    if: github.event.inputs.action != 'destroy'
     defaults:
       run:
         working-directory: terraform/azure
@@ -126,6 +139,72 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/test' && github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+
+  # ═══════════════════════════════════════════════════════════
+  # DESTROY — Manual via workflow_dispatch
+  # ═══════════════════════════════════════════════════════════
+  destroy-aws:
+    name: "🗑️ Destroy AWS"
+    runs-on: ubuntu-latest
+    if: github.event.inputs.action == 'destroy'
+    defaults:
+      run:
+        working-directory: terraform/aws
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Terraform Init
+        run: terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  destroy-azure:
+    name: "🗑️ Destroy Azure"
+    runs-on: ubuntu-latest
+    if: github.event.inputs.action == 'destroy'
+    defaults:
+      run:
+        working-directory: terraform/azure
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.10.0"
+
+      - name: Terraform Init
+        run: terraform init
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}

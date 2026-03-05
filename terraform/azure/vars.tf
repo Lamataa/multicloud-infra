@@ -23,9 +23,8 @@ variable "subnet_cidr" {
 }
 
 variable "vm_size" {
-  description = "Tamanho da VM Azure"
-  type        = string
-  default     = "Standard_B2pls_v2"
+  type    = string
+  default = "Standard_D2s_v6"
 }
 
 variable "admin_username" {
