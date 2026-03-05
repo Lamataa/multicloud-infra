@@ -1,6 +1,6 @@
 output "resource_group" {
   description = "Nome do Resource Group"
-  value       = module.rg.rg_name
+  value       = var.rg_name
 }
 
 output "lb_public_ip" {
