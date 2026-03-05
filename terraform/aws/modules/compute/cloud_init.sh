@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 exec > /var/log/cloud_init.log 2>&1
 
 echo ">>> Starting bootstrap at $(date)"
@@ -11,6 +10,9 @@ dnf install -y nginx
 # Habilitar e iniciar nginx
 systemctl enable nginx
 systemctl start nginx
+
+# Aguardar nginx subir
+sleep 5
 
 # Coletar metadados da instância
 INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
@@ -24,7 +26,7 @@ cat > /usr/share/nginx/html/index.html <<EOF
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <title>Azure Infrastructure</title>
+  <title>AWS Infrastructure</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -48,8 +50,8 @@ cat > /usr/share/nginx/html/index.html <<EOF
     }
     .badge {
       display: inline-block;
-      background: #0078d4;
-      color: #fff;
+      background: #ff9900;
+      color: #000;
       font-weight: 700;
       font-size: 0.85rem;
       padding: 4px 14px;
@@ -97,21 +99,21 @@ cat > /usr/share/nginx/html/index.html <<EOF
 </head>
 <body>
   <div class="card">
-    <div class="badge">☁️ Microsoft Azure</div>
-    <h1>Azure Infrastructure</h1>
+    <div class="badge">☁️ Amazon Web Services</div>
+    <h1>AWS Infrastructure</h1>
     <p class="subtitle">Multi-Cloud · Terraform · GitHub Actions</p>
     <div class="grid">
       <div class="stat">
-        <div class="stat-label">VM Name</div>
-        <div class="stat-value">$VM_NAME</div>
+        <div class="stat-label">Instance ID</div>
+        <div class="stat-value">$INSTANCE_ID</div>
       </div>
       <div class="stat">
-        <div class="stat-label">VM Size</div>
-        <div class="stat-value">$VM_SIZE</div>
+        <div class="stat-label">Instance Type</div>
+        <div class="stat-value">$INSTANCE_TYPE</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Location</div>
-        <div class="stat-value">$LOCATION</div>
+        <div class="stat-label">Availability Zone</div>
+        <div class="stat-value">$AZ</div>
       </div>
       <div class="stat">
         <div class="stat-label">Public IP</div>
@@ -127,4 +129,5 @@ cat > /usr/share/nginx/html/index.html <<EOF
 </html>
 EOF
 
+systemctl restart nginx
 echo ">>> Bootstrap complete at $(date)"
