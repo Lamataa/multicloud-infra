@@ -98,7 +98,7 @@ resource "aws_autoscaling_group" "main" {
   name                = "infra-asg"
   desired_capacity    = 2
   min_size            = 2
-  max_size            = 4
+  max_size            = 2
   vpc_zone_identifier = var.subnet_ids
   target_group_arns   = [aws_lb_target_group.main.arn]
 
@@ -107,6 +107,6 @@ resource "aws_autoscaling_group" "main" {
     version = "$Latest"
   }
 
-  health_check_type         = "ELB"
-  health_check_grace_period = 120
+  health_check_type         = "EC2"
+  health_check_grace_period = 300
 }
