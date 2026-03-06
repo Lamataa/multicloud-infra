@@ -74,3 +74,4 @@ jobs:
           directory: "."
           framework: terraform
           soft_fail: true
+          
