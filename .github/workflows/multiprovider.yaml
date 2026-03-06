@@ -2,7 +2,7 @@ name: Destroy Multi-Cloud
 
 on:
   push:
-    branches: [destroy-all]
+    branches: [test]
 
 jobs:
   # ═══════════════════════════════════════════════════════════
