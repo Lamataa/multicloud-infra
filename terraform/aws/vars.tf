@@ -33,3 +33,9 @@ variable "instance_type" {
   type        = string
   default     = "t3.micro"
 }
+
+variable "ssh_public_key" {
+  description = "Chave SSH pública"
+  type        = string
+  sensitive   = true
+}

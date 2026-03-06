@@ -37,7 +37,7 @@ resource "aws_security_group" "ec2" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.rede_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -81,10 +81,16 @@ resource "aws_lb_listener" "main" {
   }
 }
 
+resource "aws_key_pair" "infra" {
+  key_name   = "infra-key"
+  public_key = var.ssh_public_key
+}
+
 resource "aws_launch_template" "main" {
   name_prefix   = "infra-lt-"
   image_id      = var.ami
   instance_type = var.instance_type
+  key_name      = aws_key_pair.infra.key_name
 
   network_interfaces {
     associate_public_ip_address = true
