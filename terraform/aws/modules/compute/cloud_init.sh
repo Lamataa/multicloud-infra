@@ -3,9 +3,11 @@ exec > /var/log/cloud_init.log 2>&1
 
 echo ">>> Starting bootstrap at $(date)"
 
-# Atualizar sistema e instalar nginx
+# Atualizar sistema
 yum update -y
-yum install -y nginx
+
+# Instalar nginx via Amazon Linux Extras (necessário no AL2)
+amazon-linux-extras install nginx1 -y
 
 # Habilitar e iniciar nginx
 systemctl enable nginx
