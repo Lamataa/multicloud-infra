@@ -5,7 +5,7 @@ resource "azurerm_public_ip" "lb" {
   resource_group_name = var.rg_name
   allocation_method   = "Static"
   sku                 = "Standard"
-  zones               = ["1", "2"]
+  zones               = ["2", "3"]
 }
 
 # ── Load Balancer ─────────────────────────────────────────────
@@ -56,7 +56,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "main" {
   sku                 = var.vm_size
   instances           = 2
   admin_username      = var.admin_username
-  zones               = ["1", "2"]
+  zones               = ["2", "3"]
 
   admin_ssh_key {
     username   = var.admin_username

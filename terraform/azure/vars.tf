@@ -24,7 +24,7 @@ variable "subnet_cidr" {
 
 variable "vm_size" {
   type    = string
-  default = "Standard_D2pls_v5"
+  default = "Standard_F2ads_v7"
 }
 
 variable "admin_username" {
