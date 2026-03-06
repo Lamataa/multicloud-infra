@@ -4,8 +4,8 @@ exec > /var/log/cloud_init.log 2>&1
 echo ">>> Starting bootstrap at $(date)"
 
 # Atualizar sistema e instalar nginx
-dnf update -y
-dnf install -y nginx
+yum update -y
+yum install -y nginx
 
 # Habilitar e iniciar nginx
 systemctl enable nginx
@@ -21,7 +21,7 @@ AZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone
 PUBLIC_IP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 
 # Criar página web
-cat > /usr/share/nginx/html/index.html <<EOF
+cat > /usr/share/nginx/html/index.html <<'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,19 +105,19 @@ cat > /usr/share/nginx/html/index.html <<EOF
     <div class="grid">
       <div class="stat">
         <div class="stat-label">Instance ID</div>
-        <div class="stat-value">$INSTANCE_ID</div>
+        <div class="stat-value">INSTANCE_ID_PLACEHOLDER</div>
       </div>
       <div class="stat">
         <div class="stat-label">Instance Type</div>
-        <div class="stat-value">$INSTANCE_TYPE</div>
+        <div class="stat-value">INSTANCE_TYPE_PLACEHOLDER</div>
       </div>
       <div class="stat">
         <div class="stat-label">Availability Zone</div>
-        <div class="stat-value">$AZ</div>
+        <div class="stat-value">AZ_PLACEHOLDER</div>
       </div>
       <div class="stat">
         <div class="stat-label">Public IP</div>
-        <div class="stat-value">$PUBLIC_IP</div>
+        <div class="stat-value">PUBLIC_IP_PLACEHOLDER</div>
       </div>
     </div>
     <div class="status">
@@ -128,6 +128,12 @@ cat > /usr/share/nginx/html/index.html <<EOF
 </body>
 </html>
 EOF
+
+# Substituir placeholders com valores reais
+sed -i "s/INSTANCE_ID_PLACEHOLDER/$INSTANCE_ID/g" /usr/share/nginx/html/index.html
+sed -i "s/INSTANCE_TYPE_PLACEHOLDER/$INSTANCE_TYPE/g" /usr/share/nginx/html/index.html
+sed -i "s/AZ_PLACEHOLDER/$AZ/g" /usr/share/nginx/html/index.html
+sed -i "s/PUBLIC_IP_PLACEHOLDER/$PUBLIC_IP/g" /usr/share/nginx/html/index.html
 
 systemctl restart nginx
 echo ">>> Bootstrap complete at $(date)"
