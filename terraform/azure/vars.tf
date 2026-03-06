@@ -1,7 +1,7 @@
 variable "location" {
   description = "Região Azure"
   type        = string
-  default     = "East US"
+  default     = "West US 2"
 }
 
 variable "rg_name" {
@@ -24,7 +24,7 @@ variable "subnet_cidr" {
 
 variable "vm_size" {
   type    = string
-  default = "Standard_FX2mds_v2"
+  default = "Standard_D2pls_v5"
 }
 
 variable "admin_username" {
