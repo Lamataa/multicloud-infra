@@ -33,7 +33,7 @@ cat > /var/www/html/index.html <<EOF
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <title>QuickOps — Azure</title>
+  <title>Azure Infrastructure</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -107,7 +107,7 @@ cat > /var/www/html/index.html <<EOF
 <body>
   <div class="card">
     <div class="badge">☁️ Microsoft Azure</div>
-    <h1>QuickOps Infrastructure</h1>
+    <h1>Azure Infrastructure</h1>
     <p class="subtitle">Multi-Cloud · Terraform · GitHub Actions</p>
     <div class="grid">
       <div class="stat">

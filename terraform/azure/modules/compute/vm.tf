@@ -46,6 +46,8 @@ resource "azurerm_lb_rule" "main" {
   frontend_ip_configuration_name = "frontend"
   backend_address_pool_ids       = [azurerm_lb_backend_address_pool.main.id]
   probe_id                       = azurerm_lb_probe.main.id
+  load_distribution              = "SourceIPProtocol"
+  disable_outbound_snat          = false
 }
 
 # ── Virtual Machine Scale Set ─────────────────────────────────
