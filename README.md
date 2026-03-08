@@ -1,6 +1,6 @@
 # 🌐 Multi-Cloud Infrastructure
 
-Provisionamento automatizado de infraestrutura **multi-cloud** (AWS + Azure) usando **Terraform** e **GitHub Actions**. O projeto demonstra como tratar infraestrutura como código — qualquer mudança passa pelo Git e pelo pipeline antes de ser aplicada, eliminando intervenção manual no console das clouds.
+Provisionamento automatizado de infraestrutura **multi-cloud** (AWS + Azure) usando **Terraform** e **GitHub Actions**. O projeto demonstra como tratar infraestrutura como código, qualquer mudança passa pelo Git e pelo pipeline antes de ser aplicada, eliminando intervenção manual no console das clouds.
 
 ---
 
